@@ -6,6 +6,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Support\Facades\Gate;
 
 use App\User;
+use Illuminate\Auth\EloquentUserProvider;
 //use Auth;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,10 +31,18 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         //
-        Auth::viaRequest('token', function ($request) {  
-            //寫法2 因為orm已經幫忙處理了
-            $user = User::where('remember_token', $request->remember_token)->first();                
-            return $user;
+        Auth::viaRequest('token', function ($request) {
+            //寫法2 因為orm 找不到就會null
+            $user = User::where('remember_token', "=", $request->remember_token)->first();
+            $nowTimeStr = strtotime(date('Y/m/d H:i:s', time()));
+            $tokenTimeStr = strtotime($user->token_expire_time);
+
+            if ($tokenTimeStr > $nowTimeStr) {
+                // var_dump("  tokenTime > nowTime");
+                return $user;
+            } else {
+                return null;
+            }
         });
     }
 }

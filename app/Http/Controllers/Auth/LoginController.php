@@ -13,6 +13,7 @@ use App\User;
 use Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -53,13 +54,13 @@ class LoginController extends Controller
         //m1 ok
         $user = User::where('name', '=', $request->name)->first();
         $user->remember_token =  Str::random(60);
+        $user->token_expire_time = date('Y/m/d H:i:s', time()+1*60);
         $user->save();
-        // Auth::login($user);
-        return $user->remember_token;
+        $response = array("token"=>$user->remember_token , "expire_time"=> $user->token_expire_time) ;
+                
+        return response()->json(['message' => $response], 200);
 
-        
-        // $user =  Auth::attempt(['name' => $request->name, 'password' => $password, 'status' => $status]));
-
+        //$user =  Auth::attempt(['name' => $request->name, 'password' => $password, 'status' => $status]));
         //$user = User::where([['name','=',$request->name],['password','=', Hash::make($request->password)]])->first();
 
     }
@@ -67,13 +68,9 @@ class LoginController extends Controller
 
     public function show(Request $request)
     {
-        // $user = User::find($userId);
-        //
-
         //m2 ok : 目標 token去找  $request->user()
         var_dump("login controller");
         return $request->user();
-
 
         // m1 ok :直接orm 找
         // $user = User::where([['id', '=', $request->id], ['remember_token', '=', $request->remember_token]])->first();
@@ -84,8 +81,8 @@ class LoginController extends Controller
     }
 
     public function showV2(Request $request){
-        var_dump ( Auth::user()->name );
-        // return $request->user();
+        // var_dump ( Auth::user()->name );
+        return $request->user();
     }
 
     
