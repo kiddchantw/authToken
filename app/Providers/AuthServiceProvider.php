@@ -5,6 +5,11 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
+use App\User;
+//use Auth;
+use Illuminate\Support\Facades\Auth;
+
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -26,5 +31,20 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
+        // Auth::viaRequest('custom-token', function ($request) {
+            
+        //     if (!$request->remember_token) {
+        //         return null;
+        //     }else {
+        //         $user =User::where('remember_token', $request->remember_token)->first();
+        //         dd($user);
+                
+        //         if ($user) {
+        //             Auth::login($user);
+        //             return $user;
+        //         }
+        //         return null;
+        //     }
+        // });
     }
 }
