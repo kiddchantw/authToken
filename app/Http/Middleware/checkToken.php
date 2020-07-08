@@ -6,7 +6,7 @@ use Closure;
 
 use App\User;
 
-use Symfony\Component\HttpFoundation\Response;
+
 
 class checkToken
 {
@@ -20,21 +20,27 @@ class checkToken
     public function handle($request, Closure $next)
     {
         // var_dump($request->all());
-        // return $request->user();
         // $user = User::where([['id', '=', $request->id], ['remember_token', '=', $request->remember_token]])->first();
         $user = User::where('remember_token', '=', $request->remember_token)->first();
-        
+
         if ($user) {
             // var_dump($user->name );
             // return response()->json(['message' => $user], 200);
             // $request = $user ;
-            // return $next($request);
-             return $next($user);
 
-        }else{
+            $request->merge(['user' => $user]);
+
+            //add this
+            $request->setUserResolver(function () use ($user) {
+                return $user;
+            });
+
+            // if you dump() you can now see the $request has it
+            // dump($request->user());
+            return $next($request);
+
+        } else {
             return response()->json(['message' => 'User Token not found 2 !'], 404);
         }
-        
-
     }
 }

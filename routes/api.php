@@ -18,9 +18,9 @@ use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 |
 */
 //default
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 
 
@@ -30,7 +30,7 @@ Route::post('user/detail', 'Auth\LoginController@show');
 
 Route::middleware(['checkToken'])->group(function(){
     Route::post('user/detailv2', 'Auth\LoginController@show');
-    Route::get('user/detailv3/{token}', 'Auth\LoginController@show');
+    // Route::get('user/detailv3/{token}', 'Auth\LoginController@show');
 
 });
 

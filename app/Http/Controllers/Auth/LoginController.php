@@ -64,16 +64,14 @@ class LoginController extends Controller
     {
         // $user = User::find($userId);
         //
-        //目標只透過token去找  $request->user()
-        // dd("111");
+
+        //m2 ok : 目標 token去找  $request->user()
         var_dump("login controller");
-        var_dump($request->all());
         return $request->user();
 
 
-
+        // m1 ok :直接orm 找
         // $user = User::where([['id', '=', $request->id], ['remember_token', '=', $request->remember_token]])->first();
-
         // if ($user) {
         //     return response()->json(['message' => $user], 200);
         // }
