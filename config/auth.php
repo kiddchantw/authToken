@@ -42,8 +42,8 @@ return [
         ],
 
         'api' => [
-            // 'driver' => 'token',
-            'driver' => 'custom-token',
+            'driver' => 'token',
+            //'driver' => 'custom-token',
             'provider' => 'users',
             'hash' => false,
         ],

@@ -28,13 +28,23 @@ Route::post('loginToken', 'Auth\LoginController@login');
 Route::post('registerToken', 'Auth\RegisterController@register');
 Route::post('user/detail', 'Auth\LoginController@show');
 
+
 Route::middleware(['checkToken'])->group(function(){
     Route::post('user/detailv2', 'Auth\LoginController@show');
-    // Route::get('user/detailv3/{token}', 'Auth\LoginController@show');
-
 });
 
 
+Route::middleware(['auth:api'])->group(function(){
+    
+    Route::post('logout', 'Auth\LoginController@showV2');
+    // Route::post('user/detailv3', 'Auth\LoginController@show');
+});
+
+
+
+
+
+// Route::get('user/detailv3/{token}', 'Auth\LoginController@show');
 
 // Route::middleware(checkToken::class)->post('/user', function (Request $request) {
 //     // Route::post('detailv2', 'Auth\LoginController@show');

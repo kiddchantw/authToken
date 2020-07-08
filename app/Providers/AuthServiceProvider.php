@@ -29,22 +29,11 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
         //
-        // Auth::viaRequest('custom-token', function ($request) {
-            
-        //     if (!$request->remember_token) {
-        //         return null;
-        //     }else {
-        //         $user =User::where('remember_token', $request->remember_token)->first();
-        //         dd($user);
-                
-        //         if ($user) {
-        //             Auth::login($user);
-        //             return $user;
-        //         }
-        //         return null;
-        //     }
-        // });
+        Auth::viaRequest('token', function ($request) {  
+            //寫法2 因為orm已經幫忙處理了
+            $user = User::where('remember_token', $request->remember_token)->first();                
+            return $user;
+        });
     }
 }

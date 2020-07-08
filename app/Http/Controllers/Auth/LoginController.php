@@ -50,13 +50,18 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // return response()->json([ 'message' => $request ], 200);
-        // $user = User::where([['name','=',$request->name],['password','=', $request->password]])->first();
+        //m1 ok
         $user = User::where('name', '=', $request->name)->first();
         $user->remember_token =  Str::random(60);
         $user->save();
-        Auth::login($user);
+        // Auth::login($user);
         return $user->remember_token;
+
+        
+        // $user =  Auth::attempt(['name' => $request->name, 'password' => $password, 'status' => $status]));
+
+        //$user = User::where([['name','=',$request->name],['password','=', Hash::make($request->password)]])->first();
+
     }
 
 
@@ -77,4 +82,11 @@ class LoginController extends Controller
         // }
         // return response()->json(['message' => 'User not found!'], 404);
     }
+
+    public function showV2(Request $request){
+        var_dump ( Auth::user()->name );
+        // return $request->user();
+    }
+
+    
 }

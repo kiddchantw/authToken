@@ -66,3 +66,4 @@ class Kernel extends HttpKernel
         'checkToken' => \App\Http\Middleware\checkToken::class,
     ];
 }
+2
