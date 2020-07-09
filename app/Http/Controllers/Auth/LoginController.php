@@ -68,8 +68,6 @@ class LoginController extends Controller
                 
         return response()->json(['message' => $response], 200);
 
-        //$user =  Auth::attempt(['name' => $request->name, 'password' => $password, 'status' => $status]));
-        //$user = User::where([['name','=',$request->name],['password','=', Hash::make($request->password)]])->first();
     }
 
 
@@ -79,12 +77,6 @@ class LoginController extends Controller
         var_dump("login controller");
         return $request->user();
 
-        // m1 ok :直接orm 找
-        // $user = User::where([['id', '=', $request->id], ['remember_token', '=', $request->remember_token]])->first();
-        // if ($user) {
-        //     return response()->json(['message' => $user], 200);
-        // }
-        // return response()->json(['message' => 'User not found!'], 404);
     }
 
     public function showV2(Request $request){
@@ -94,15 +86,23 @@ class LoginController extends Controller
 
 
     public function refreshToken(Request $request){
-        
         $user = $request->user();
         $user->token_expire_time = date('Y/m/d H:i:s', time()+5*60);
         $user->save();
 
         $response = array("token"=>$user->remember_token , "expire_time"=> $user->token_expire_time) ;   
         return response()->json(['message' => $response], 200);
-
     }
 
+    public function logout(Request $request){
+
+
+        $user = $request->user();
+        $user->remember_token = Null;
+        $user->token_expire_time = Null;
+
+        $user->save();
+        return response()->json(['message' => "logout success!"], 200);
+    }
     
 }

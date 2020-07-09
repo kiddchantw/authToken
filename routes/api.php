@@ -38,18 +38,11 @@ Route::middleware(['auth:api'])->group(function(){
     
     Route::post('detailv3', 'Auth\LoginController@showV2');
     Route::post('refreshToken', 'Auth\LoginController@refreshToken');
+    Route::post('logout', 'Auth\LoginController@logout');
 
-    // Route::post('user/detailv3', 'Auth\LoginController@show');
 });
 
 
 
 
 
-// Route::get('user/detailv3/{token}', 'Auth\LoginController@show');
-
-// Route::middleware(checkToken::class)->post('/user', function (Request $request) {
-//     // Route::post('detailv2', 'Auth\LoginController@show');
-
-//     return $request->user();
-// });
