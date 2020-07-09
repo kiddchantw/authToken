@@ -51,9 +51,17 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        
+        do  {
+            $loginToken = Str::random(60);
+            $checkTokenExist = User::where('remember_token', '=', $loginToken)->first();  
+        } 
+        while( $checkTokenExist );
+
+        
         //m1 ok
         $user = User::where('name', '=', $request->name)->first();
-        $user->remember_token =  Str::random(60);
+        $user->remember_token =  $loginToken;
         $user->token_expire_time = date('Y/m/d H:i:s', time()+1*60);
         $user->save();
         $response = array("token"=>$user->remember_token , "expire_time"=> $user->token_expire_time) ;
@@ -62,7 +70,6 @@ class LoginController extends Controller
 
         //$user =  Auth::attempt(['name' => $request->name, 'password' => $password, 'status' => $status]));
         //$user = User::where([['name','=',$request->name],['password','=', Hash::make($request->password)]])->first();
-
     }
 
 
@@ -83,6 +90,18 @@ class LoginController extends Controller
     public function showV2(Request $request){
         // var_dump ( Auth::user()->name );
         return $request->user();
+    }
+
+
+    public function refreshToken(Request $request){
+        
+        $user = $request->user();
+        $user->token_expire_time = date('Y/m/d H:i:s', time()+5*60);
+        $user->save();
+
+        $response = array("token"=>$user->remember_token , "expire_time"=> $user->token_expire_time) ;   
+        return response()->json(['message' => $response], 200);
+
     }
 
     

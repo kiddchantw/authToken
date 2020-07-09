@@ -34,15 +34,16 @@ class AuthServiceProvider extends ServiceProvider
         Auth::viaRequest('token', function ($request) {
             //寫法2 因為orm 找不到就會null
             $user = User::where('remember_token', "=", $request->remember_token)->first();
-            $nowTimeStr = strtotime(date('Y/m/d H:i:s', time()));
-            $tokenTimeStr = strtotime($user->token_expire_time);
-
-            if ($tokenTimeStr > $nowTimeStr) {
-                // var_dump("  tokenTime > nowTime");
-                return $user;
-            } else {
-                return null;
+            if ($user){
+                $nowTimeStr = strtotime(date('Y/m/d H:i:s', time()));
+                $tokenTimeStr = strtotime($user->token_expire_time);
+                if ($tokenTimeStr > $nowTimeStr) {
+                    return $user;
+                } else {
+                    return null;
+                }
             }
+           
         });
     }
 }

@@ -36,7 +36,9 @@ Route::middleware(['checkToken'])->group(function(){
 
 Route::middleware(['auth:api'])->group(function(){
     
-    Route::post('logout', 'Auth\LoginController@showV2');
+    Route::post('detailv3', 'Auth\LoginController@showV2');
+    Route::post('refreshToken', 'Auth\LoginController@refreshToken');
+
     // Route::post('user/detailv3', 'Auth\LoginController@show');
 });
 

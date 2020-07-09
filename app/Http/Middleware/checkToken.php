@@ -31,7 +31,7 @@ class checkToken
             // dump($request->user());
             return $next($request);
         } else {
-            return response()->json(['message' => 'User Token not found 2 !'], 404);
+            return response()->json(['message' => 'User Token not found in checkToken!'], 404);
         }
 
                 // var_dump($request->all());
