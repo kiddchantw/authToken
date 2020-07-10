@@ -22,27 +22,23 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::post('loginToken', 'Auth\LoginController@login');
+// Route::middleware(['apiLog'])->group(function () {
+Route::middleware(['apiLogRequest','apiLogResponse'])->group(function () {
+    Route::post('loginToken', 'Auth\LoginController@login');
+});
 
 Route::post('registerToken', 'Auth\RegisterController@register');
 Route::post('user/detail', 'Auth\LoginController@show');
 
 
-Route::middleware(['checkToken'])->group(function(){
+Route::middleware(['checkToken'])->group(function () {
     Route::post('user/detailv2', 'Auth\LoginController@show');
 });
 
 
-Route::middleware(['auth:api'])->group(function(){
+Route::middleware(['auth:api'])->group(function () {
 
     Route::post('detailv3', 'Auth\LoginController@showV2');
     Route::post('refreshToken', 'Auth\LoginController@refreshToken');
     Route::post('logout', 'Auth\LoginController@logout');
-
 });
-
-
-
-
-
