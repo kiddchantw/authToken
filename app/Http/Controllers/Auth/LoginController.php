@@ -95,13 +95,11 @@ class LoginController extends Controller
     }
 
     public function logout(Request $request){
-
-
         $user = $request->user();
         $user->remember_token = Null;
         $user->token_expire_time = Null;
-
         $user->save();
+        
         return response()->json(['message' => "logout success!"], 200);
     }
     
