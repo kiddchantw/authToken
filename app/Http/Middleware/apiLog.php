@@ -19,9 +19,13 @@ class apiLog
         $uri = $request->path();
         $method = $request->method();
         $body = $request->all();
-        $log = ['uri: '=> $uri, 'method: '=>$method, 'details:'=>$body]; 
+        $logResquest = ['uri: '=> $uri, 'method: '=>$method, 'details:'=>$body]; 
+        Log::notice("request ", $logResquest);
         
-        Log::notice("request", $log);
-        return $next($request);
+        $response = $next($request);
+        $body = $response->content();        
+        $logResponse = ['uri: '=>$uri,'details:'=>$body]; 
+        Log::notice("response ", $logResponse);
+        return $response;
     }
 }
