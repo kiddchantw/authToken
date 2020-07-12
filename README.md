@@ -1,13 +1,19 @@
 # laravel auth by Token
 
-done : 
-- token放db
-- middelware check token 是否存在
+## finsh : 
+
+### auth
+- [x] token放db
+- [x] set token expired time 
+- [x] refresh token 
+
+### middelware 
+
+- [x] check token is expired
+- [x] api log
 
 
-unfinish :
+## unfinish :
 
-request->user()
-
-
+- [ ] reset password 
 
